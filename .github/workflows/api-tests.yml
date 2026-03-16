@@ -1,6 +1,15 @@
 name: API Tests
 
 on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        default: 'docker'
+        type: string
+      test_folder:
+        required: false
+        type: string
   push:
     branches: [ main, master ]
   pull_request:

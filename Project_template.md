@@ -5,7 +5,8 @@
 1. Спроектируйте to be архитектуру КиноБездны, разделив всю систему на отдельные домены и организовав интеграционное взаимодействие и единую точку вызова сервисов.
 Результат представьте в виде контейнерной диаграммы в нотации С4.
 Добавьте ссылку на файл в этот шаблон
-[ссылка на файл](ссылка)
+
+[CinemaAbyss Container Diagram](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/Container.puml)
 
 
 ## Задание 2
@@ -59,6 +60,9 @@
 Необходимые тесты для проверки этого API вызываются при запуске npm run test:local из папки tests/postman 
 Приложите скриншот тестов и скриншот состояния топиков Kafka http://localhost:8090 
 
+[Cкриншот тестов 1](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/скрин тестов 1.png)
+[Cкриншот тестов 2](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/скрин тестов 2.png)
+[Скриншот состояния топиков Kafka](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/скрин состояния топиков Kafka.png)
 
 ## Задание 3
 

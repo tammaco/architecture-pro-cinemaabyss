@@ -1,0 +1,56 @@
+@startuml CinemaAbyss Container Diagram
+title  CinemaAbyss Container Diagram
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "User", "A user of cinemaabyss system")
+System_Ext(recommendationService, "Recommendation Service", "Recommendation selection service")
+
+Container(mobileDevice, "Mobile App", "iOS/Android", "Native mobile application")
+Container(laptop, "Web Browser", "JavaScript", "Web application")
+Container(smartTV, "TV App", "Smart TV OS", "TV application")
+
+Container_Boundary(CinemaAbyssSystem, "CinemaAbyss API") {
+  Container(apiGateway, "API Gateway (Proxy Service)", "C#", "Маршрутизация запросов между монолитом и микросервисами")
+
+  Container(monolith, "Monolith system", "Go", "Монолитное приложение")
+
+  Container(moviesApi, "Movies microservice", "Go", "Микросервис для операций с фильмами")
+  Container(usersApi, "Users microservice", "Go", "Микросервис для операций с пользователями, подписками и скидками")
+  Container(paymentsApi, "Payments microservice", "Go", "Микросервис для операций с платежами")
+
+  ContainerDb(database, "Primary Database", "PostgreSQL", "Primary data store")
+  ContainerDb(moviesDb, "Movies Database", "PostgreSQL", "Movies service database")
+  ContainerDb(usersDb, "Users Database", "PostgreSQL", "Users service database")
+  ContainerDb(paymentsDb, "Payments Database", "PostgreSQL", "Payments service database")
+
+  Container(recommendationMessageQueue, "Recommendation message Queue", "RabbitMQ")
+  Container(eventsService, "Events message Queue", "Kafka", "Обрабатывает коммуникацию между сервисами")
+}
+
+Rel(recommendationService, recommendationMessageQueue, "Uses", "MQTT")
+Rel(recommendationMessageQueue, apiGateway, "Process data", "Queue subscription")
+
+Rel(user, mobileDevice, "Uses", "HTTPS/REST")
+Rel(user, laptop, "Uses", "HTTPS/REST")
+Rel(user, smartTV, "Uses", "HTTPS/REST")
+
+Rel(mobileDevice, apiGateway, "Process requests", "JSON/HTTPS")
+Rel(laptop, apiGateway, "Process requests", "JSON/HTTPS")
+Rel(smartTV, apiGateway, "Process requests", "JSON/HTTPS")
+
+Rel(apiGateway, monolith, "Process requests", "JSON/HTTPS")
+Rel(apiGateway, moviesApi, "Process requests", "JSON/HTTPS")
+Rel(apiGateway, usersApi, "Process requests", "JSON/HTTPS")
+Rel(apiGateway, paymentsApi, "Process requests", "JSON/HTTPS")
+
+Rel(moviesApi, eventsService, "События фильмов (просмотр, оценка, добавление)", "AMQP")
+Rel(usersApi, eventsService, "События пользователей (регистрация, вход)", "AMQP")
+Rel(paymentsApi, eventsService, "События платежей", "AMQP")
+
+Rel(monolith, database, "Reads/Writes", "SQL")
+Rel(moviesApi, moviesDb, "Reads/Writes", "SQL")
+Rel(usersApi, usersDb, "Reads/Writes", "SQL")
+Rel(paymentsApi, paymentsDb, "Reads/Writes", "SQL")
+
+@enduml
