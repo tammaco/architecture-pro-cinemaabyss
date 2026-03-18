@@ -27,6 +27,9 @@ namespace EventsApi.Services
 
             _logger.LogInformation("Published to {Topic} [partition: {Partition}, offset: {Offset}]",
                 topic, result.Partition, result.Offset);
+    
+            _logger.LogDebug("Message metadata: key={Key}, timestamp={Timestamp}", 
+                result.Message.Key, result.Message.Timestamp);
 
             return (result.Partition.Value, result.Offset.Value);
         }

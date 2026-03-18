@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cinemaabyss-circuit-breaker
+  namespace: cinemaabyss
+data:
+  routes.json: |
+    {
+      "routes": [
+        {
+          "name": "monolith-route",
+          "service": "monolith",
+          "port": 8080,
+          "circuitBreaker": {
+            "enabled": true,
+            "failureThreshold": 3,
+            "successThreshold": 2,
+            "timeout": 5,
+            "resetTimeout": 30
+          },
+          "healthCheck": {
+            "enabled": true,
+            "path": "/health",
+            "interval": 10
+          }
+        },
+        {
+          "name": "movies-route",
+          "service": "movies-service",
+          "port": 8081,
+          "circuitBreaker": {
+            "enabled": true,
+            "failureThreshold": 5,
+            "successThreshold": 3,
+            "timeout": 3,
+            "resetTimeout": 20
+          },
+          "healthCheck": {
+            "enabled": true,
+            "path": "/health",
+            "interval": 5
+          }
+        }
+      ]
+    }
