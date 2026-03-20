@@ -13,5 +13,7 @@ var app = builder.Build();
 
 app.MapControllers();
 
+app.MapGet("/health", () => Results.Ok(new { status = true }));
+
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8082";
 app.Run($"http://0.0.0.0:{port}");
