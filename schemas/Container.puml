@@ -11,10 +11,13 @@ Container(laptop, "Web Browser", "JavaScript", "Web application")
 Container(smartTV, "TV App", "Smart TV OS", "TV application")
 
 Container_Boundary(CinemaAbyssSystem, "CinemaAbyss API") {
-  Container(apiGateway, "API Gateway (Proxy Service)", "C#", "Маршрутизация запросов между монолитом и микросервисами")
+  Container(apiGateway, "API Gateway / CDN", "C# / CloudFront", "Маршрутизация запросов, кэширование")
+
+  Container(s3Storage, "Content Storage", "Amazon S3", "Хранение контента")
 
   Container(monolith, "Monolith system", "Go", "Монолитное приложение")
 
+  Container(authApi, "Auth microservice", "C#", "Микросервис для аутентификации")
   Container(moviesApi, "Movies microservice", "Go", "Микросервис для операций с фильмами")
   Container(usersApi, "Users microservice", "Go", "Микросервис для операций с пользователями, подписками и скидками")
   Container(paymentsApi, "Payments microservice", "Go", "Микросервис для операций с платежами")
@@ -39,6 +42,13 @@ Rel(mobileDevice, apiGateway, "Process requests", "JSON/HTTPS")
 Rel(laptop, apiGateway, "Process requests", "JSON/HTTPS")
 Rel(smartTV, apiGateway, "Process requests", "JSON/HTTPS")
 
+Rel(apiGateway, s3Storage, "Запрос контента", "HTTPS")
+Rel(s3Storage, apiGateway, "Выгрузка контента", "HTTPS")
+
+Rel(moviesApi, s3Storage, "Загрузка/Удаление контента", "AWS SDK")
+Rel(monolith, s3Storage, "Загрузка/Удаление контента", "AWS SDK")
+
+Rel(apiGateway, authApi, "Authentification", "JSON/HTTPS")
 Rel(apiGateway, monolith, "Process requests", "JSON/HTTPS")
 Rel(apiGateway, moviesApi, "Process requests", "JSON/HTTPS")
 Rel(apiGateway, usersApi, "Process requests", "JSON/HTTPS")
@@ -48,6 +58,7 @@ Rel(moviesApi, eventsService, "События фильмов (просмотр, 
 Rel(usersApi, eventsService, "События пользователей (регистрация, вход)", "AMQP")
 Rel(paymentsApi, eventsService, "События платежей", "AMQP")
 
+Rel(authApi, usersDb, "Reads/Writes", "SQL")
 Rel(monolith, database, "Reads/Writes", "SQL")
 Rel(moviesApi, moviesDb, "Reads/Writes", "SQL")
 Rel(usersApi, usersDb, "Reads/Writes", "SQL")

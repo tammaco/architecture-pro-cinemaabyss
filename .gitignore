@@ -24,6 +24,7 @@ _obj
 _test
 bin/
 pkg/
+obj/
 
 # Dependency directories
 vendor/
