@@ -53,6 +53,9 @@ public class EventsController : ControllerBase
 
             var (partition, offset) = await _kafkaProducer.PublishAsync(MovieTopic, enrichedEvent);
 
+            _logger.LogInformation("Movie event published successfully to topic {Topic} [partition: {Partition}, offset: {Offset}]", 
+                MovieTopic, partition, offset);
+
             var response = new EventResponse
             {
                 Partition = partition,
@@ -92,6 +95,8 @@ public class EventsController : ControllerBase
             };
 
             var (partition, offset) = await _kafkaProducer.PublishAsync(UserTopic, enrichedEvent);
+            _logger.LogInformation("User event published successfully to topic {Topic} [partition: {Partition}, offset: {Offset}]", 
+                UserTopic, partition, offset);
 
             var response = new EventResponse
             {
@@ -132,6 +137,8 @@ public class EventsController : ControllerBase
             };
 
             var (partition, offset) = await _kafkaProducer.PublishAsync(PaymentTopic, enrichedEvent);
+            _logger.LogInformation("Payment event published successfully to topic {Topic} [partition: {Partition}, offset: {Offset}]", 
+                PaymentTopic, partition, offset);
 
             var response = new EventResponse
             {

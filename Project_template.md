@@ -278,6 +278,9 @@ cat .docker/config.json | base64
 #### Шаг 3
 Добавьте сюда скриншота вывода при вызове https://cinemaabyss.example.com/api/movies и  скриншот вывода event-service после вызова тестов.
 
+[Cкриншот вывода при вызове api/movies](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/kubernets/api_movies.png)
+
+[Cкриншот вывода event-service](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/kubernets/скриншот_обработки_событий.png)
 
 ## Задание 4
 Для простоты дальнейшего обновления и развертывания вам как архитектуру необходимо так же реализовать helm-чарты для прокси-сервиса и проверить работу 
@@ -353,6 +356,13 @@ minikube tunnel
 https://cinemaabyss.example.com/api/movies
 и приложите скриншот развертывания helm и вывода https://cinemaabyss.example.com/api/movies
 
+[Cкриншот вывода при вызове api/movies](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/helm/api_movies.png)
+
+[Cкриншот describe](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/helm/describe.png)
+
+[Cкриншот pod statuses](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/helm/pod_statuses.png)
+
+[Cкриншот ingress](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/helm/ingress.png)
 
 # Задание 5
 Компания планирует активно развиваться и для повышения надежности, безопасности, реализации сетевых паттернов типа Circuit Breaker и канареечного деплоя вам как архитектору необходимо развернуть istio и настроить circuit breaker для monolith и movies сервисов.
@@ -418,6 +428,14 @@ You can see 21 for the upstream_rq_pending_overflow value which means 21 calls s
 ```
 
 Приложите скриншот работы circuit breaker'а
+
+[Cкриншот fortio load](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/circuit-breaker/fortio load.png)
+
+[Cкриншот fortio aft](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/circuit-breaker/aft.png)
+
+[Cкриншот fortio result](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/circuit-breaker/result.png)
+
+[Cкриншот статистика](https://github.com/tammaco/architecture-pro-cinemaabyss/schemas/test-results/circuit-breaker/statistics.png)
 
 Удаляем все
 ```bash
